@@ -22,7 +22,7 @@ class CreateFrsMahasiswasTable extends Migration
             $table->enum('status', ['acc', 'belum acc'])->default('belum acc');
             $table->date('tanggal_pengajuan');
             $table->timestamps();
-        });        
+        });
     }
 
     public function down(): void
