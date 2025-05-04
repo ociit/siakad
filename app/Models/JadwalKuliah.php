@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\MataKuliah; 
+use App\Models\Dosen; 
 use Illuminate\Database\Eloquent\Model;
 
 class JadwalKuliah extends Model
