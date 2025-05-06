@@ -7,6 +7,7 @@ use Illuminate\Foundation\Console\ProviderMakeCommand;
 
 class Dosen extends Model
 {
+    protected $table = 'dosens';
     protected $primaryKey = 'nip';
     public $incrementing = false;
 
