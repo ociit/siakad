@@ -4,62 +4,93 @@ namespace App\Http\Controllers;
 
 use App\Models\Dosen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class DosenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // GET /api/dosen
     public function index()
     {
-        //
+        $dosen = Dosen::all(); // Ambil semua data dosen
+    return view('dosen.index', compact('dosen'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
-    {
-        //
-    }
+{
+    return view('dosen.create'); // Pastikan view ini ada
+}
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+    // POST /api/dosen
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nip' => 'required|unique:dosens,nip',
+            'nama' => 'required',
+            'email' => 'required|email|unique:dosens,email',
+            'password' => 'required|min:6',
+            'jurusan_id' => 'nullable|exists:jurusans,id',
+            'no_telp' => 'nullable',
+            'isDosenWali' => 'nullable|boolean'
+        ]);
+
+        $dosen = Dosen::create([
+            'nip' => $request->nip,
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'jurusan_id' => $request->jurusan_id,
+            'no_telp' => $request->no_telp,
+            'isDosenWali' => $request->isDosenWali ?? false
+        ]);
+
+        return redirect()->route('dosen.index')->with('success', 'Dosen berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Dosen $dosen)
+    // GET /api/dosen/{nip}
+    public function show($nip)
     {
-        //
+        $dosen = Dosen::findOrFail($nip);
+        return view('dosen.show', compact('dosen'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Dosen $dosen)
+    // PUT /api/dosen/{nip}
+    public function update(Request $request, $nip)
     {
-        //
+        $dosen = Dosen::findOrFail($nip);
+
+        $request->validate([
+            'nama' => 'required',
+            'email' => "required|email|unique:dosens,email,$nip,nip",
+            'jurusan_id' => 'nullable|exists:jurusans,id',
+            'no_telp' => 'nullable',
+            'isDosenWali' => 'nullable|boolean'
+        ]);
+
+        $dosen->update([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'jurusan_id' => $request->jurusan_id,
+            'no_telp' => $request->no_telp,
+            'isDosenWali' => $request->isDosenWali ?? false
+        ]);
+
+        return redirect()->route('dosen.index')->with('success', 'Data dosen diperbarui');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Dosen $dosen)
-    {
-        //
-    }
+    // DELETE /api/dosen/{nip}
+    public function destroy($nip)
+{
+    $dosen = Dosen::findOrFail($nip);
+    $dosen->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Dosen $dosen)
-    {
-        //
-    }
+    return redirect()->route('dosen.index')->with('success', 'Dosen berhasil dihapus');
+}
+
+    public function edit($nip)
+{
+    $dosen = Dosen::findOrFail($nip);
+    return view('dosen.edit', compact('dosen'));
+}
+
 }
