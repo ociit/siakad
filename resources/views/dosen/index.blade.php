@@ -25,7 +25,7 @@
                 <td>{{ $d->nip }}</td>
                 <td>{{ $d->nama }}</td>
                 <td>{{ $d->email }}</td>
-                <td>{{ $d->jurusan->nama ?? '-' }}</td>
+                <td>{{ $d->jurusan->nama_jurusan ?? '-' }}</td>
                 <td>{{ $d->no_telp ?? '-' }}</td>
                 <td>{{ $d->isDosenWali ? 'Ya' : 'Tidak' }}</td>
                 <td>

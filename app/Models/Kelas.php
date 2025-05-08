@@ -22,6 +22,6 @@ class Kelas extends Model
     }
 
     public function jadwalKuliah() {
-        return $this->belongsTo(JadwalKuliah::class);
+        return $this->hasOne(JadwalKuliah::class, 'id', 'jadwal_kuliah_id');
     }
 }

@@ -4,36 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\Jurusan;
-use Illuminate\Validation\Rule;
 use App\Models\Dosen;
 use App\Models\JadwalKuliah;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class KelasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $kelas = Kelas::with(['jurusan', 'dosen', 'jadwalKuliah'])->get();
         return view('kelas.index', compact('kelas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $jurusans = Jurusan::all();
-        $dosens = Dosen::where('isDosenWali', true)->get(); // hanya dosen wali
+        $dosens = Dosen::where('isDosenWali', true)->get();
         $jadwals = JadwalKuliah::all();
         return view('kelas.create', compact('jurusans', 'dosens', 'jadwals'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -46,34 +37,26 @@ class KelasController extends Controller
             'semester' => 'required|integer|min:1',
             'jadwal_kuliah_id' => 'required|exists:jadwal_kuliahs,id',
         ]);
-    
+
         Kelas::create($request->all());
         return redirect()->route('kelas.index')->with('success', 'Kelas berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Kelas $kelas)
     {
         $kelas->load(['jurusan', 'dosen', 'jadwalKuliah', 'mahasiswas']);
         return view('kelas.show', compact('kelas'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Kelas $kelas)
     {
         $jurusans = Jurusan::all();
-        $dosens = Dosen::where('isDosenWali', true)->get(); // hanya dosen wali
-        $jadwals = JadwalKuliah::all();
-        return view('kelas.edit', compact('kelas', 'jurusans', 'dosens', 'jadwals'));
+        $dosens = Dosen::all();
+        $jadwalKuliah = JadwalKuliah::all();
+
+        return view('kelas.edit', compact('kelas', 'jurusans', 'dosens', 'jadwalKuliah'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Kelas $kelas)
     {
         $request->validate([
@@ -85,13 +68,9 @@ class KelasController extends Controller
         ]);
 
         $kelas->update($request->all());
-
         return redirect()->route('kelas.index')->with('success', 'Kelas berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Kelas $kelas)
     {
         $kelas->delete();

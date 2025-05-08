@@ -38,21 +38,22 @@ class MahasiswaController extends Controller
             'nama' => 'required',
             'email' => 'required|email|unique:mahasiswas,email',
             'password' => 'required|min:6',
-            'kelas_id' => 'required',
-            'semester' => 'required|integer',
+            'kelas_id' => 'required|exists:kelas,id',
             'no_telp' => 'nullable',
         ]);
-
-        Mahasiswa::created([
+    
+        $kelas = Kelas::findOrFail($request->kelas_id);
+    
+        Mahasiswa::create([
             'nrp' => $request->nrp,
             'nama' => $request->nama,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'kelas_id' => $request->kelas_id,
-            'semester' => $request->semester,
+            'kelas_id' => $kelas->id,
+            'semester' => $kelas->semester, // diisi otomatis dari model Kelas
             'no_telp' => $request->no_telp,
         ]);
-
+    
         return redirect()->route('mahasiswa.index')->with('success', 'Data Mahasiswa Berhasil ditambahkan!');
     }
 
@@ -81,19 +82,20 @@ class MahasiswaController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required|email|unique:mahasiswas,email,' . $mahasiswa->nrp . ',nrp',
-            'kelas_id' => 'required',
-            'semester' => 'required|integer',
+            'kelas_id' => 'required|exists:kelas,id',
             'no_telp' => 'nullable',
         ]);
-
+    
+        $kelas = Kelas::findOrFail($request->kelas_id);
+    
         $mahasiswa->update([
             'nama' => $request->nama,
             'email' => $request->email,
-            'kelas_id' => $request->kelas_id,
-            'semester' => $request->semester,
+            'kelas_id' => $kelas->id,
+            'semester' => $kelas->semester, // otomatis dari kelas
             'no_telp' => $request->no_telp,
         ]);
-
+    
         return redirect()->route('mahasiswa.index')->with('success', 'Data Mahasiswa Berhasil diperbarui!');
     }
 

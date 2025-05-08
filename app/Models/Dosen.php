@@ -10,7 +10,6 @@ class Dosen extends Authenticatable
 {
     protected $table = 'dosens';
     protected $primaryKey = 'nip';
-    protected $table = 'dosens'; // pastikan ini sesuai dengan nama tabel di database
     public $incrementing = false;
     protected $keyType = 'string'; // tambahkan ini jika nip adalah string
 

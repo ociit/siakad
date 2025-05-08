@@ -9,10 +9,13 @@ Route::get('/', function () {
 });
 
 Route::resource('mahasiswa', MahasiswaController::class);
-Route::resource('kelas', KelasController::class);
+Route::resource('kelas', KelasController::class)->parameters([
+    'kelas' => 'kelas'
+]);
 Route::resource('dosen', DosenController::class);
 Route::resource('jurusan', JurusanController::class);
 Route::resource('matakuliah', MataKuliahController::class);
 Route::resource('nilai', NilaiMahasiswaController::class);
 Route::resource('frs', FrsMahasiswaController::class);
 Route::resource('jadwal', JadwalKuliahController::class);
+Route::resource('jadwal_matakuliah', JadwalMataKuliahController::class);

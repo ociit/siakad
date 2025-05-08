@@ -20,8 +20,14 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="{{ route('mahasiswa.index') }}" class="nav-link">Mahasiswa</a></li>
                     <li class="nav-item"><a href="{{ route('dosen.index') }}" class="nav-link">Dosen</a></li>
-                    <li class="nav-item"><a href="{{ route('kelas.index') }}" class="nav-link">Kelas</a></li>
                     <li class="nav-item"><a href="{{ route('matakuliah.index') }}" class="nav-link">Mata Kuliah</a></li>
+                    <li class="nav-item"><a href="{{ route('jadwal.index') }}" class="nav-link">Jadwal Kuliah</a></li>
+                    <li class="nav-item"><a href="{{ route('jadwal_matakuliah.index') }}" class="nav-link">Jadwal Matakuliah</a></li>
+                    <li class="nav-item"><a href="{{ route('kelas.index') }}" class="nav-link">Kelas</a></li>
+                    <li class="nav-item"><a href="{{ route('matakuliah.index') }}" class="nav-link">Departemen</a></li>
+                    <li class="nav-item"><a href="{{ route('matakuliah.index') }}" class="nav-link">Jurusan</a></li>
+                    <li class="nav-item"><a href="{{ route('matakuliah.index') }}" class="nav-link">Nilai Mahasiswa</a></li>
+                    <li class="nav-item"><a href="{{ route('matakuliah.index') }}" class="nav-link">FRS Mahasiswa</a></li>
                 </ul>
             </div>
         </div>

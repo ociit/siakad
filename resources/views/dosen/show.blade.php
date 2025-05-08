@@ -19,7 +19,7 @@
         </tr>
         <tr>
             <th>Jurusan</th>
-            <td>{{ $dosen->jurusan->nama ?? '-' }}</td>
+            <td>{{ $dosen->jurusan->nama_jurusan ?? '-' }}</td>
         </tr>
         <tr>
             <th>No Telp</th>

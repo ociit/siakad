@@ -1,20 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Detail Kelas</h3>
+<div class="container">
+    <h1>Detail Kelas</h1>
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">{{ $kelas->nama_kelas }}</h5>
-            <p class="card-text"><strong>Jurusan:</strong> {{ $kelas->jurusan->nama_jurusan }}</p>
-            <p class="card-text"><strong>Dosen Pengampu:</strong> {{ $kelas->dosen->nama }} ({{ $kelas->dosen->nip }})</p>
-            <p class="card-text"><strong>Semester:</strong> {{ $kelas->semester }}</p>
-            <p class="card-text"><strong>Jadwal Kuliah:</strong> 
-                {{ $kelas->jadwalKuliah->hari ?? '-' }} - 
-                {{ $kelas->jadwalKuliah->jam_mulai ?? '-' }}
-            </p>
-        </div>
-    </div>
+    <ul>
+        <li>Nama Kelas: {{ $kelas->nama_kelas }}</li>
+        <li>Jurusan: {{ $kelas->jurusan->nama_jurusan ?? '-' }}</li>
+        <li>Dosen Wali: {{ $kelas->dosen->nama ?? '-' }}</li>
+        <li>Semester: {{ $kelas->semester }}</li>
+        <li>Jadwal Kuliah: {{ $kelas->jadwalKuliah->hari ?? '-' }}</li>
+    </ul>
 
-    <a href="{{ route('kelas.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Kelas</a>
+    <h4>Daftar Mahasiswa</h4>
+    @if($kelas->mahasiswas->isEmpty())
+        <p>Tidak ada mahasiswa di kelas ini.</p>
+    @else
+        <ul>
+            @foreach($kelas->mahasiswas as $mhs)
+                <li>{{ $mhs->nama }} ({{ $mhs->nrp }})</li>
+            @endforeach
+        </ul>
+    @endif
+
+    <a href="{{ route('kelas.index') }}" class="btn btn-secondary">Kembali</a>
+</div>
 @endsection

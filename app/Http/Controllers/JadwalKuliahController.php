@@ -3,63 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Models\JadwalKuliah;
+use App\Models\JadwalMataKuliah;
 use Illuminate\Http\Request;
 
 class JadwalKuliahController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $jadwals = JadwalKuliah::withCount('jadwalMatakuliahs')->get();
+        return view('jadwal.index', compact('jadwals'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('jadwal.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_jadwal' => 'required|string|max:255',
+        ]);
+
+        JadwalKuliah::create($request->all());
+        return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(JadwalKuliah $jadwalKuliah)
+    public function show($id)
     {
-        //
+        $jadwalKuliah = JadwalKuliah::with('jadwalMatakuliahs.mataKuliah', 'jadwalMatakuliahs.dosenUtama', 'jadwalMatakuliahs.dosenTambahan')
+            ->findOrFail($id);
+        return view('jadwal.show', compact('jadwalKuliah'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(JadwalKuliah $jadwalKuliah)
+    public function edit(JadwalKuliah $jadwal)
     {
-        //
+        return view('jadwal.edit', compact('jadwal'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, JadwalKuliah $jadwalKuliah)
+    public function update(Request $request, JadwalKuliah $jadwal)
     {
-        //
+        $request->validate([
+            'nama_jadwal' => 'required|string|max:255',
+        ]);
+
+        $jadwal->update($request->all());
+        return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(JadwalKuliah $jadwalKuliah)
+    public function destroy(JadwalKuliah $jadwal)
     {
-        //
+        $jadwal->delete();
+        return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil dihapus');
     }
 }

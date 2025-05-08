@@ -24,7 +24,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Jurusan ID</label>
+            <label class="form-label">Jurusan</label>
             <input type="number" name="jurusan_id" class="form-control" value="{{ $dosen->jurusan_id }}">
         </div>
 
