@@ -1,101 +1,67 @@
-<?php
-
+<?php 
 namespace App\Http\Controllers;
 
 use App\Models\JadwalKuliah;
 use App\Models\JadwalMataKuliah;
-use App\Models\Matakuliah;
 use App\Models\Dosen;
+use App\Models\Matakuliah;
 use Illuminate\Http\Request;
 
 class JadwalMataKuliahController extends Controller
 {
-    public function create(JadwalKuliah $jadwal)
+    public function create(JadwalKuliah $jadwal_kuliah)
     {
-        $matakuliahs = Matakuliah::all();
         $dosens = Dosen::all();
-        return view('jadwalMatakuliah.create', compact('jadwal', 'matakuliahs', 'dosens'));
+        $matakuliahs = Matakuliah::all();
+        return view('jadwalmatakuliah.create', compact('jadwal_kuliah', 'dosens', 'matakuliahs'));
     }
 
-    public function store(Request $request, JadwalKuliah $jadwal)
+    public function store(Request $request, JadwalKuliah $jadwal_kuliah)
     {
         $request->validate([
             'matakuliah_id' => 'required|exists:matakuliahs,id',
             'dosen_nip' => 'required|exists:dosens,nip',
             'dosen_pengajar2_nip' => 'nullable|exists:dosens,nip',
             'hari' => 'required|string|max:10',
-            'jam_mulai' => 'required|date_format:H:i',
-            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
             'ruangan' => 'required|string|max:50',
-            'semester' => 'required|integer',
+            'semester' => 'required|integer'
         ]);
 
-        JadwalMataKuliah::create([
-            'jadwal_kuliah_id' => $jadwal->id,
-            'matakuliah_id' => $request->matakuliah_id,
-            'dosen_nip' => $request->dosen_nip,
-            'dosen_pengajar2_nip' => $request->dosen_pengajar2_nip,
-            'hari' => $request->hari,
-            'jam_mulai' => $request->jam_mulai,
-            'jam_selesai' => $request->jam_selesai,
-            'ruangan' => $request->ruangan,
-            'semester' => $request->semester,
-        ]);
+        $jadwal_kuliah->jadwalMatakuliahs()->create($request->all());
 
-        return redirect()->route('jadwal.show', $jadwal->id)->with('success', 'Detail matakuliah berhasil ditambahkan.');
+        return redirect()->route('jadwal-kuliah.show', $jadwal_kuliah->id)->with('success', 'Jadwal mata kuliah ditambahkan.');
     }
 
-    public function edit(JadwalKuliah $jadwal, JadwalMataKuliah $detail)
+    public function edit(JadwalKuliah $jadwal_kuliah, JadwalMataKuliah $matakuliah)
     {
-        $matakuliahs = Matakuliah::all();
         $dosens = Dosen::all();
-        return view('jadwalMatakuliah.edit', compact('jadwal', 'detail', 'matakuliahs', 'dosens'));
+        $matakuliahs = Matakuliah::all();
+        return view('jadwalmatakuliah.edit', compact('jadwal_kuliah', 'matakuliah', 'dosens', 'matakuliahs'));
     }
 
-    public function show($id)
-{
-    // Ambil jadwal matakuliah berdasarkan ID
-    $jadwalMataKuliah = JadwalMataKuliah::findOrFail($id);
-    
-    // Ambil jadwal kuliah yang terkait dengan jadwal matakuliah
-    $jadwalKuliah = $jadwalMataKuliah->jadwalKuliah;
-
-    // Kirim data ke view
-    return view('jadwalMatakuliah.show', compact('jadwalKuliah', 'jadwalMataKuliah'));
-}
-
-
-
-    public function update(Request $request, JadwalKuliah $jadwal, JadwalMataKuliah $detail)
+    public function update(Request $request, JadwalKuliah $jadwal_kuliah, JadwalMataKuliah $matakuliah)
     {
         $request->validate([
             'matakuliah_id' => 'required|exists:matakuliahs,id',
             'dosen_nip' => 'required|exists:dosens,nip',
             'dosen_pengajar2_nip' => 'nullable|exists:dosens,nip',
             'hari' => 'required|string|max:10',
-            'jam_mulai' => 'required|date_format:H:i',
-            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
             'ruangan' => 'required|string|max:50',
-            'semester' => 'required|integer',
+            'semester' => 'required|integer'
         ]);
 
-        $detail->update([
-            'matakuliah_id' => $request->matakuliah_id,
-            'dosen_nip' => $request->dosen_nip,
-            'dosen_pengajar2_nip' => $request->dosen_pengajar2_nip,
-            'hari' => $request->hari,
-            'jam_mulai' => $request->jam_mulai,
-            'jam_selesai' => $request->jam_selesai,
-            'ruangan' => $request->ruangan,
-            'semester' => $request->semester,
-        ]);
+        $matakuliah->update($request->all());
 
-        return redirect()->route('jadwal.show', $jadwal->id)->with('success', 'Detail matakuliah berhasil diperbarui.');
+        return redirect()->route('jadwal-kuliah.show', $jadwal_kuliah->id)->with('success', 'Jadwal mata kuliah diperbarui.');
     }
 
-    public function destroy(JadwalKuliah $jadwal, JadwalMataKuliah $detail)
+    public function destroy(JadwalKuliah $jadwal_kuliah, JadwalMataKuliah $matakuliah)
     {
-        $detail->delete();
-        return redirect()->route('jadwal.show', $jadwal->id)->with('success', 'Detail matakuliah berhasil dihapus.');
+        $matakuliah->delete();
+        return redirect()->route('jadwal-kuliah.show', $jadwal_kuliah->id)->with('success', 'Jadwal mata kuliah dihapus.');
     }
 }

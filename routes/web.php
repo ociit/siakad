@@ -17,5 +17,11 @@ Route::resource('jurusan', JurusanController::class);
 Route::resource('matakuliah', MataKuliahController::class);
 Route::resource('nilai', NilaiMahasiswaController::class);
 Route::resource('frs', FrsMahasiswaController::class);
-Route::resource('jadwal', JadwalKuliahController::class);
-Route::resource('jadwal_matakuliah', JadwalMataKuliahController::class);
+Route::resource('jadwal-kuliah', JadwalKuliahController::class);
+Route::prefix('jadwal-kuliah/{jadwal_kuliah}')->group(function () {
+    Route::get('matakuliah/create', [JadwalMataKuliahController::class, 'create'])->name('jadwal-matakuliah.create');
+    Route::post('matakuliah', [JadwalMataKuliahController::class, 'store'])->name('jadwal-matakuliah.store');
+    Route::get('matakuliah/{matakuliah}/edit', [JadwalMataKuliahController::class, 'edit'])->name('jadwal-matakuliah.edit');
+    Route::put('matakuliah/{matakuliah}', [JadwalMataKuliahController::class, 'update'])->name('jadwal-matakuliah.update');
+    Route::delete('matakuliah/{matakuliah}', [JadwalMataKuliahController::class, 'destroy'])->name('jadwal-matakuliah.destroy');
+});

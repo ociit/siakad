@@ -16,7 +16,7 @@ class JadwalMataKuliah extends Model
 
     public function mataKuliah()
     {
-        return $this->belongsTo(Matakuliah::class);
+        return $this->belongsTo(Matakuliah::class, 'matakuliah_id');
     }
 
     public function dosenUtama()
