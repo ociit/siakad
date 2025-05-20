@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Daftar Mahasiswa</h1>
+
     <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary mb-3">Tambah Mahasiswa</a>
 
     @if(session('success'))
@@ -16,6 +17,7 @@
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Kelas</th>
+                <th>Jurusan</th> {{-- Tambahan --}}
                 <th>Semester</th>
                 <th>Aksi</th>
             </tr>
@@ -27,6 +29,7 @@
                 <td>{{ $mhs->nama }}</td>
                 <td>{{ $mhs->email }}</td>
                 <td>{{ $mhs->kelas->nama_kelas ?? '-' }}</td>
+                <td>{{ $mhs->kelas->jurusan->nama_jurusan ?? '-' }}</td> {{-- Tambahan --}}
                 <td>{{ $mhs->semester }}</td>
                 <td>
                     <a href="{{ route('mahasiswa.show', $mhs->nrp) }}" class="btn btn-info btn-sm">Detail</a>
