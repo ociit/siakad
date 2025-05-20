@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MataKuliah extends Model
 {
     protected $table = 'matakuliahs';
-    protected $fillable = ['nama_matakuliah', 'dosen_nip', 'jurusan_id', 'semester', 'sks'];
+    protected $fillable = ['id','nama_matakuliah', 'dosen_nip', 'jurusan_id', 'semester', 'sks'];
     public function dosen()
     {
         return $this->belongsTo(Dosen::class, 'dosen_nip', 'nip');

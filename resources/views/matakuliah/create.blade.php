@@ -7,6 +7,7 @@
             @csrf
             @include('matakuliah.partials.form', ['matakuliah' => new \App\Models\MataKuliah()])
             <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="{{ route('matakuliah.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
 @endsection

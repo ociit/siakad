@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\Jurusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +18,8 @@ class DosenController extends Controller
 
     public function create()
 {
-    return view('dosen.create'); // Pastikan view ini ada
+    $jurusans = Jurusan::all();
+    return view('dosen.create', compact('jurusans'));
 }
 
 
@@ -78,19 +80,18 @@ class DosenController extends Controller
         return redirect()->route('dosen.index')->with('success', 'Data dosen diperbarui');
     }
 
-    // DELETE /api/dosen/{nip}
-    public function destroy($nip)
-{
-    $dosen = Dosen::findOrFail($nip);
-    $dosen->delete();
-
-    return redirect()->route('dosen.index')->with('success', 'Dosen berhasil dihapus');
-}
-
     public function edit($nip)
-{
-    $dosen = Dosen::findOrFail($nip);
-    return view('dosen.edit', compact('dosen'));
-}
+    {
+        $dosen = Dosen::findOrFail($nip);
+        $jurusans = Jurusan::all();
+        return view('dosen.edit', compact('dosen', 'jurusans'));
+    }
+    
+    public function destroy($nip)
+    {
+        $dosen = Dosen::findOrFail($nip);
+        $dosen->delete();
 
+        return redirect()->route('dosen.index')->with('success', 'Dosen berhasil dihapus');
+    }
 }

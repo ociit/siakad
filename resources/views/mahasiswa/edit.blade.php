@@ -11,7 +11,7 @@
         @include('mahasiswa.partials.form', ['mahasiswa' => $mahasiswa])
 
         <button type="submit" class="btn btn-success">Update</button>
-        <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection

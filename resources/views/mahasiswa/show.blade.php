@@ -9,6 +9,7 @@
         <tr><th>Nama</th><td>{{ $mahasiswa->nama }}</td></tr>
         <tr><th>Email</th><td>{{ $mahasiswa->email }}</td></tr>
         <tr><th>Kelas</th><td>{{ $mahasiswa->kelas->nama_kelas ?? '-' }}</td></tr>
+        <tr><th>Jurusan</th><td>{{ $mahasiswa->kelas->jurusan->nama_jurusan ?? '-' }}</td></tr> {{-- Tambahan --}}
         <tr><th>Semester</th><td>{{ $mahasiswa->semester }}</td></tr>
         <tr><th>No. Telepon</th><td>{{ $mahasiswa->no_telp ?? '-' }}</td></tr>
     </table>

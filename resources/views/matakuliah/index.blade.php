@@ -34,12 +34,10 @@
                         <td>
                             <a href="{{ route('matakuliah.edit', $mk->id) }}" class="btn btn-sm btn-warning">Edit</a>
 
-                            {{-- Tombol Hapus (opsional) --}}
-                            <form action="{{ route('matakuliah.destroy', $mk->id) }}" method="POST" style="display:inline;"
-                                onsubmit="return confirm('Yakin ingin menghapus mata kuliah ini?')">
+                            <form action="{{ route('matakuliah.destroy', $mk->id) }}" method="POST" style="display:inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                <button onclick="return confirm('Yakin ingin menghapus mata kuliah ini?')" class="btn btn-danger btn-sm">Hapus</button>
                             </form>
                         </td>
                     </tr>
