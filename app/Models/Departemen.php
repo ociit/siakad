@@ -9,7 +9,16 @@ class Departemen extends Model
     protected $table = 'departemens';
     protected $fillable = ['nama_departemen'];
 
-    public function jurusans() {
+    public $timestamps = true;
+    protected $primaryKey = 'id';
+
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
+
+    public function jurusans()
+    {
         return $this->hasMany(Jurusan::class);
     }
 }

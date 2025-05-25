@@ -3,63 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jurusan;
+use App\Models\Departemen;
 use Illuminate\Http\Request;
 
 class JurusanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index($id)
     {
-        //
+        $departemen = Departemen::with('jurusans')->findOrFail($id);
+        return view('jurusan.index', compact('departemen'));
+    }
+    public function edit($id)
+    {
+        $jurusan = Jurusan::with('departemen')->findOrFail($id);
+        return view('jurusan.edit', compact('jurusan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create($departemen_id)
     {
-        //
+        $departemen = Departemen::findOrFail($departemen_id);
+        return view('jurusan.create', compact('departemen'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request, $departemen_id)
     {
-        //
+        $request->validate(['nama_jurusan' => 'required']);
+        Jurusan::create([
+            'nama_jurusan' => $request->nama_jurusan,
+            'departemen_id' => $departemen_id
+        ]);
+        return redirect()->route('jurusan.index', $departemen_id);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Jurusan $jurusan)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate(['nama_jurusan' => 'required']);
+        Jurusan::findOrFail($id)->update($request->only('nama_jurusan'));
+        return redirect()->route('jurusan.index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Jurusan $jurusan)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Jurusan $jurusan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Jurusan $jurusan)
-    {
-        //
+        Jurusan::findOrFail($id)->delete();
+        return back();
     }
 }

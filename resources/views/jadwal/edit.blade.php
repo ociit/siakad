@@ -10,6 +10,7 @@
             <input type="text" name="nama_jadwal" class="form-control" value="{{ $jadwal_kuliah->nama_jadwal }}" required>
         </div>
         <button type="submit" class="btn btn-success mt-2">Update</button>
+        <a href="{{ route('jadwal-kuliah.index') }}" class="btn btn-secondary mt-2">Kembali</a>
     </form>
 </div>
 @endsection

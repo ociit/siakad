@@ -10,7 +10,7 @@
         @endif
 
         {{-- Tombol Tambah --}}
-        <a href="{{ route('matakuliah.create') }}" class="btn btn-success mb-3">Tambah Mata Kuliah</a>
+        <a href="{{ route('matakuliah.create') }}" class="btn btn-primary mb-3">Tambah Mata Kuliah</a>
 
         <table class="table table-bordered">
             <thead>

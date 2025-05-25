@@ -40,11 +40,12 @@
         </div>
 
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="isDosenWali" value="1" {{ old('isDosenWali', $dosen->isDosenWali) ? 'checked' : '' }}>
+            <input class="form-check-input" type="checkbox" name="isDosenWali" value="1" {{ old('isDosenWali', $dosen->isDosenWali) ? 'checked' : '' }} disabled>
             <label class="form-check-label">Dosen Wali</label>
         </div>
 
         <button type="submit" class="btn btn-success">Update</button>
+        <a href="{{ route('dosen.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection

@@ -9,24 +9,23 @@
 
         <div class="form-group">
             <label for="matakuliah_id">Mata Kuliah</label>
-            <select name="matakuliah_id" class="form-control">
-                @foreach ($matakuliahs as $mk)
-                    <option value="{{ $mk->id }}" {{ $mk->id == $matakuliah->matakuliah_id ? 'selected' : '' }}>
-                        {{ $mk->nama_matakuliah }}
-                    </option>
-                @endforeach
-            </select>
+                <select id="matakuliah_id" name="matakuliah_id" class="form-control">
+                    @foreach ($matakuliahs as $mk)
+                        <option 
+                            value="{{ $mk->id }}"
+                            data-dosen="{{ $mk->dosen->nip }}"
+                            data-semester="{{ $mk->semester }}"
+                            {{ $mk->id == $matakuliah->matakuliah_id ? 'selected' : '' }}>
+                            {{ $mk->nama_matakuliah }}
+                        </option>
+                    @endforeach
+                </select>
         </div>
 
         <div class="form-group">
-            <label for="dosen_nip">Dosen Utama</label>
-            <select name="dosen_nip" class="form-control">
-                @foreach ($dosens as $dosen)
-                    <option value="{{ $dosen->nip }}" {{ $dosen->nip == $matakuliah->dosen_nip ? 'selected' : '' }}>
-                        {{ $dosen->nama }}
-                    </option>
-                @endforeach
-            </select>
+            <label for="dosen_nama">Dosen Utama</label>
+            <input id="dosen_nama" class="form-control" readonly value="{{ $matakuliah->dosen->nama ?? '' }}">
+            <input type="hidden" id="dosen_nip" name="dosen_nip" value="{{ $matakuliah->dosen_nip }}">
         </div>
 
         <div class="form-group">
@@ -44,10 +43,7 @@
         <div class="form-group">
             <label for="hari">Hari</label>
             <select name="hari" class="form-control">
-                @php
-                    $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                @endphp
-                @foreach ($hariList as $hari)
+                @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
                     <option value="{{ $hari }}" {{ $matakuliah->hari == $hari ? 'selected' : '' }}>
                         {{ $hari }}
                     </option>
@@ -72,7 +68,7 @@
 
         <div class="form-group">
             <label for="semester">Semester</label>
-            <input type="number" name="semester" class="form-control" value="{{ $matakuliah->semester }}">
+            <input type="number" id="semester" name="semester" class="form-control" value="{{ $matakuliah->semester }}" readonly>
         </div>
 
         <button type="submit" class="btn btn-success mt-3">Update</button>
@@ -80,3 +76,38 @@
     </form>
 </div>
 @endsection
+
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const matakuliahSelect = document.getElementById('matakuliah_id');
+    const dosenNipInput = document.getElementById('dosen_nip');
+    const dosenNamaInput = document.getElementById('dosen_nama');
+    const semesterInput = document.getElementById('semester');
+
+    // Ambil data dosen dari server sebagai array JS
+    const daftarDosen = @json($dosens);
+
+    function updateDosenDanSemester() {
+        const selected = matakuliahSelect.options[matakuliahSelect.selectedIndex];
+        const dosenNip = selected.getAttribute('data-dosen');
+        const semester = selected.getAttribute('data-semester');
+
+        // Update hidden input NIP
+        dosenNipInput.value = dosenNip ?? '';
+        semesterInput.value = semester ?? '';
+
+        // Cari nama dosen berdasarkan NIP
+        const dosen = daftarDosen.find(d => d.nip === dosenNip);
+        dosenNamaInput.value = dosen ? dosen.nama : '';
+    }
+
+    // Jalankan saat halaman pertama kali load
+    updateDosenDanSemester();
+
+    // Jalankan juga ketika ada perubahan select
+    matakuliahSelect.addEventListener('change', updateDosenDanSemester);
+});
+</script>
+@endpush

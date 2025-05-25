@@ -7,7 +7,7 @@
             @csrf
             @method('PUT')
             @include('matakuliah.partials.form', ['matakuliah' => $matakuliah])
-            <button type="submit" class="btn btn-warning">Update</button>
+            <button type="submit" class="btn btn-success">Update</button>
             <a href="{{ route('matakuliah.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>

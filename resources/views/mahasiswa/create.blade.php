@@ -10,7 +10,7 @@
         @include('mahasiswa.partials.form', ['mahasiswa' => null])
 
         <button type="submit" class="btn btn-primary">Simpan</button>
-        <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection
